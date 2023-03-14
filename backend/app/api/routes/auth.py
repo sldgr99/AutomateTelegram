@@ -1,10 +1,8 @@
-from flask import Blueprint, request, jsonify, app
+from flask import request, jsonify
 from functools import wraps
 import jwt
-
+from flask_restful import Resource
 from ..model.User import User
-
-auth = Blueprint('auth', __name__)
 
 
 # decorator for blueprint
@@ -33,3 +31,19 @@ def token_required(f):
         return f(current_user, *args, **kwargs)
   
     return decorated
+
+
+class LoginApi(Resource):
+    def get(self):
+        return "login" 
+
+    def post(self):
+        return "LoginPage"
+
+
+class SignupApi(Resource):
+    def get(self):
+        return "signup"
+
+    def post(self):
+        return "SignUpPage"

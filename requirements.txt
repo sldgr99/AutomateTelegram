@@ -3,3 +3,4 @@ pymongo
 flask_cors
 telethon
 pyJwt
+flask-restful

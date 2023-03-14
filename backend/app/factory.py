@@ -1,11 +1,11 @@
 from flask import Flask
 from flask.json import JSONEncoder
 from flask_cors import CORS
-
+from flask_restful import Api
 from bson import json_util, ObjectId
 from datetime import datetime
 
-from .api.routes.auth import auth
+from .api.routes.routes import initialize_routes
 
 
 class MongoJsonEncoder(JSONEncoder):
@@ -21,12 +21,9 @@ def create_app():
 
     app = Flask(__name__)
     CORS(app)
+    api = Api(app)
     app.json_encoder = MongoJsonEncoder
     # here register blueprint
-    app.register_blueprint(auth)
-
-    @app.route("/")
-    def index():
-        return "<p>Main!</p>"
+    initialize_routes(api)
 
     return app
