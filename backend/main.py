@@ -1,16 +1,21 @@
-from flask import Flask
-from pymongo import MongoClient
-from bson.objectid import ObjectId
-from flask_cors import CORS
-
-app = Flask(__name__)
-CORS(app)
+from app.factory import create_app
+from app.db import initialize_db
+import os
+import configparser
 
 
-@app.route("/")
-def index():
-    return "<p>Main!</p>"
+config = configparser.ConfigParser()
+config.read(os.path.abspath(os.path.join("connection.INI")))
+app = create_app()
+app.config['DEBUG'] = True
+app.config['MONGODB_HOST'] = config['DEVELOPMENT']['DB_URI']
+app.config['SECRET_KEY'] = 'greenduxlosuxaspix'
+initialize_db(app)
+
+
+def get_app():
+    return app
 
 
 if __name__ == "__main__":
-    app.run(port=8000, debug=True)
+    app.run(port=8000)
